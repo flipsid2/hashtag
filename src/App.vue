@@ -74,9 +74,7 @@ export default {
   data () {
     return {
       newHashTag: {
-          title: '',
-          author: '11',
-          url: 'http://'
+          title: ''
       },
       alertList : ''
     }
@@ -85,9 +83,7 @@ export default {
   computed: {
     validation: function () {
       return {
-        title: !!this.newHashTag.title.trim(),
-        author: !!this.newHashTag.author.trim()
-		// url:
+        title: !!this.newHashTag.title.trim()
       }
     },
     isValid: function () {
@@ -116,44 +112,39 @@ export default {
         this.alertList = ''
       },
       addHashTag: function () {
-  		if (this.isValid) {
-        if ( this.hashtags.length >= 30 ){
-          toastr.warning('최대 해시태그 저장 MAX( ' + this.hashtags.length + ' )까지 입니다.')
-          return
-        } 
-
-        for(let i = this.hashtags.length - 1; i >= 0; i--) {
-          let temp = this.hashtags[i];
-          if ( temp.title == this.newHashTag.title ) {
-            toastr.warning('중복되는 해시태그( ' + this.newHashTag.title + ' ) 입니다.')
-            
+    		if (this.isValid) {
+          if ( this.hashtags.length >= 30 ){
+            toastr.warning('최대 해시태그 저장 MAX( ' + this.hashtags.length + ' )까지 입니다.')
             this.newHashTag.title = '';
-            this.newHashTag.author = '';
-            this.newHashTag.url = 'http://';
             return
-          }
-        }
+          } 
 
-        hashtagsRef.push(this.newHashTag);
+          for(let i = this.hashtags.length - 1; i >= 0; i--) {
+            let temp = this.hashtags[i];
+            if ( temp.title == this.newHashTag.title ) {
+              toastr.warning('중복되는 해시태그( ' + this.newHashTag.title + ' ) 입니다.')
+              
+              this.newHashTag.title = '';
+              return
+            }
+          }
+
+          hashtagsRef.push(this.newHashTag);
           this.newHashTag.title = '';
-          this.newHashTag.author = '';
-          this.newHashTag.url = 'http://';
-        toastr.success('HashTag added successfully')
-        
-	  	} else {
-        for(let i = this.hashtags.length - 1; i >= 0; i--) {
-          let temp = this.hashtags[i];
-          if ( temp.title == this.newHashTag.title ) {
-            toastr.warning('중복되는 해시태그( ' + this.newHashTag.title + ' ) 입니다.')
-            
-            this.newHashTag.title = '';
-            this.newHashTag.author = '';
-            this.newHashTag.url = 'http://';
-            return
+          toastr.success('HashTag added successfully')
+          
+  	  	} else {
+          for(let i = this.hashtags.length - 1; i >= 0; i--) {
+            let temp = this.hashtags[i];
+            if ( temp.title == this.newHashTag.title ) {
+              toastr.warning('중복되는 해시태그( ' + this.newHashTag.title + ' ) 입니다.')
+              
+              this.newHashTag.title = '';
+              return
+            }
           }
+  		  	toastr.warning('The data is empty!')
         }
-		  	toastr.warning('The data is empty!')
-	  	}
       },
       removenHashTag: function (hashtag) {
         hashtagsRef.child(hashtag['.key']).remove()
