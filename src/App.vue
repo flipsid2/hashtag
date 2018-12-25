@@ -117,7 +117,7 @@ export default {
       },
       addHashTag: function () {
   		if (this.isValid) {
-        if ( this.hashtags.length >= 5 ){
+        if ( this.hashtags.length >= 30 ){
           toastr.warning('최대 해시태그 저장 MAX( ' + this.hashtags.length + ' )까지 입니다.')
           return
         } 
