@@ -19,10 +19,14 @@
         </form>
       </div>
       <div class="panel-body">
-         <form id="form" class="form-inline" v-on:submit.prevent="shakeHashTag">
+        <form id="form" class="form-inline" v-on:submit.prevent="shakeHashTag">
           <input type="submit" class="btn btn-primary" value="#해시테그 추출">
         </form>
-        <spin><h3><small> HashTag : {{alertList}}</small></h3></spin>
+        <br>
+        <div class="form-group">
+          <label for="HashTagList">#해시테그 리스트 : {{alertList}} </label>
+          <button type="button" @click="doCopy"> = Copy = </button>
+        </div>
       </div>
     </div>
     <div class="panel panel-default">
@@ -97,6 +101,15 @@ export default {
   },
 
    methods: {
+      doCopy: function () {
+        this.$copyText(this.alertList).then(function (e) {
+          alert('Copied')
+          console.log(e)
+        }, function (e) {
+          alert('Can not copy')
+          console.log(e)
+        })
+      },
       shakeHashTag: function () { 
         this.alertList = ''
         this.alertListCnt = 0
