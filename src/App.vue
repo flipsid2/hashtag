@@ -20,13 +20,14 @@
       </div>
       <div class="panel-body">
          <form id="form" class="form-inline" v-on:submit.prevent="shakeHashTag">
-          <input type="submit" class="btn btn-primary" value="Shake HashTag">
+          <input type="submit" class="btn btn-primary" value="#해시테그 추출">
         </form>
+        <spin><h3><small> HashTag : {{alertList}}</small></h3></spin>
       </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">HashTag List</h3>
+        <h3 class="panel-title">HashTag List ({{hashtags.length}})</h3>
       </div>
       <div class="panel-body">
         <table class="table table-striped">
@@ -76,7 +77,8 @@ export default {
       newHashTag: {
           title: ''
       },
-      alertList : ''
+      alertList : '',
+      alertListCnt : 0
     }
   },
 
@@ -96,28 +98,33 @@ export default {
 
    methods: {
       shakeHashTag: function () { 
+        this.alertList = ''
+        this.alertListCnt = 0
+        let hashtagList = this.hashtags
+
         for(let i = this.hashtags.length - 1; i >= 0; i--) {
           let randomIndex = Math.floor(Math.random() * i);
           
-          let temp = this.hashtags[i];
-          this.hashtags[i] = this.hashtags[randomIndex];
-          if( this.alertList == '' ){
-            this.alertList = '#' + this.hashtags[i].title
-          } else {
-            this.alertList = this.alertList  + ', #' +this.hashtags[i].title
+          let temp = hashtagList[i];
+          hashtagList[i] = hashtagList[randomIndex];
+          if( this.alertListCnt < 30 ) {
+            if( this.alertList == '' ){
+              this.alertList = '#' + hashtagList[i].title
+            } else {
+              this.alertList = this.alertList  + ', #' +hashtagList[i].title
+            }
           }
-          this.hashtags[randomIndex] = temp;
+          hashtagList[randomIndex] = temp;
+          this.alertListCnt++;
         }
-        alert(this.alertList)
-        this.alertList = ''
       },
       addHashTag: function () {
     		if (this.isValid) {
-          if ( this.hashtags.length >= 30 ){
-            toastr.warning('최대 해시태그 저장 MAX( ' + this.hashtags.length + ' )까지 입니다.')
-            this.newHashTag.title = '';
-            return
-          } 
+          //if ( this.hashtags.length >= 30 ){
+          //  toastr.warning('최대 해시태그 저장 MAX( ' + this.hashtags.length + ' )까지 입니다.')
+          //  this.newHashTag.title = '';
+          //  return
+          //} 
 
           for(let i = this.hashtags.length - 1; i >= 0; i--) {
             let temp = this.hashtags[i];
