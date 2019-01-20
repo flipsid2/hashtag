@@ -124,7 +124,7 @@ export default {
             if( this.alertList == '' ){
               this.alertList = '#' + hashtagList[i].title
             } else {
-              this.alertList = this.alertList  + ', #' +hashtagList[i].title
+              this.alertList = this.alertList  + ' #' +hashtagList[i].title
             }
           }
           hashtagList[randomIndex] = temp;
