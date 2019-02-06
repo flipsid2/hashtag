@@ -18,9 +18,11 @@
           <h3><small># 빼고 해시태그 입력하세요.</small></h3>
         </form>
       </div>
+
       <div class="panel-body">
         <form id="form" class="form-inline" v-on:submit.prevent="shakeHashTag">
           <input type="submit" class="btn btn-primary" value="#해시테그 추출">
+          <input type="number" v-model.number="MaxTagCount" value={MaxTagCount}>
         </form>
         <br>
         <div class="form-group">
@@ -82,7 +84,8 @@ export default {
           title: ''
       },
       alertList : '',
-      alertListCnt : 0
+      alertListCnt : 0,
+      MaxTagCount : 30
     }
   },
 
@@ -120,7 +123,7 @@ export default {
           
           let temp = hashtagList[i];
           hashtagList[i] = hashtagList[randomIndex];
-          if( this.alertListCnt < 30 ) {
+          if( this.alertListCnt < this.MaxTagCount ) {
             if( this.alertList == '' ){
               this.alertList = '#' + hashtagList[i].title
             } else {
@@ -133,7 +136,7 @@ export default {
       },
       addHashTag: function () {
     		if (this.isValid) {
-          //if ( this.hashtags.length >= 30 ){
+          //if ( this.hashtags.length >= this.MaxTagCount ){
           //  toastr.warning('최대 해시태그 저장 MAX( ' + this.hashtags.length + ' )까지 입니다.')
           //  this.newHashTag.title = '';
           //  return
